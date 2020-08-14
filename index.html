@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turn Based Board Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <!-- //Rules -->
+    <div class="btn-container">
+        <button id="rulesButton">Game Rules</button>
+    </div>
+    <div id="gameRules" style="display: none;">
+        <button id="closeButton">X</button>
+        <h2 id="rulesheader">Game Rules!</h2>
+        <h4 style="margin-left: 15px;">For Seamless Experience, Kindly Follow the rules below:</h4>
+        <ul>
+            <li>
+                You can move a maximum one to three boxes (horizontally or vertically) before ending your turn..
+            </li>
+            <li>
+                You can Change weapons to increase the Damage You may have on your oponent.
+            </li>
+            <li>
+                The battle begins once you get to a cell adjacent to that of your oponent.
+            </li>
+            <li>You can choose to Defend or attack against the subsequent shots</li>
+            <li>
+                If you choose to defend you sustain 50% of the Possible Injury and 100% if you choose to Attack
+            </li>
+        </ul>
+        <strong style="margin-left: 35%;">May the Best Player WIN!!!!</strong>
+    </div>
+
+    <!-- Initial Interface -->
+    <div class="initialUI">
+        <div id="hostPlayer" class="playerPannel">
+            <div>
+                <h2>Host Player</h2>
+            </div>
+            <img class="playercombat" src="./images/images/hostPlayer.png" alt="hostPlayer"><br>
+            <p class="hostUpdates"></p>
+            <div class="#"><strong>Energy Level </strong><span class="hostPlayerEnergyLevelIndicator">100</span></div>
+            <div style="margin:30px auto; width: 50px; height: 50px; background: url('./images/bat.png')" class="hostPlayerWeaponTracker"> </div>
+            <div><strong>Damage Level </strong> <span class="hostplayerdamage">10</span></div>
+        </div>
+        <div id="container"></div>
+        <div id="visitor" class="playerPannel">
+            <div>
+                <h2>Visiting Player</h2>
+            </div>
+            <img class="playercombat" src="./images/images/visitor.png" alt="visitor"><br>
+            <p class="visitorUpdates"></p>
+            <div class="#"><strong>Energy Level </strong> <span class="visitor-life">100</span></div>
+            <div class="visitorWeaponTracker" style="background: url('./images/bat.png'); margin: 30px auto;height: 50px; object-fit: contain;width: 50px;">
+            </div>
+            <div><strong>Damage Level </strong><span class="visitorplayerdamage">10</span></div>
+        </div>
+    </div>
+    <!-- The Fight User Interface -->
+    <div id="combatWindow" class="userInteractiveWindow">
+        <div>
+            <a href="index.html" title="Close" class="close">X</a>
+            <h2 align="center">Fight!</h2>
+            <hr>
+            <div id="hostCombatPosition" class="player-battle">
+                <div>
+                    <h2>Host Player</h2>
+                </div>
+                <img class="playercombat" src="./images/images/hostPlayer.png" alt="hostPlayer"><br>
+                <div class="#"><strong>Energy Level </strong><span class="hostPlayerEnergyLevelIndicator">100</span>
+                </div>
+                <div style="margin-left:35%; width: 50px; height: 50px; background: url('./images/bat.png')" class="hostPlayerWeaponTracker"> </div>
+                <div><strong>Damage Level </strong> <span class="hostplayerdamage">10</span></div>
+                <div class="defence"><strong>Defending</strong> <span id="hostDefending">false</span></div><br>
+                <button id="hostPlayer-attack">Attack</button> <button id="hostdefendbtn">Defend</button>
+            </div>
+
+            <div id="visitorCombatPosition" class="player-battle">
+                <div>
+                    <h2>Visiting Player</h2>
+                </div>
+                <img class="playercombat" src="./images/images/visitor.png" alt="visitor"><br>
+                <div class="#"><strong>Energy Level </strong> <span class="visitor-life">100</span> </div>
+                <div style="margin-left:35%; width: 50px; height: 50px; background: url('./images/bat.png')" class="visitorWeaponTracker"> </div>
+                <div><strong>Damage Level </strong> <span class="visitorplayerdamage">10</span></div>
+                <div class="defence"><strong>Defending</strong> <span id="visitorDefending">false</span></div> <br>
+                <button id="visitor-attack">Attack</button> <button id="visitordefendbtn">Defend</button>
+            </div>
+        </div>
+    </div>
+    <!-- Game Summary Interface -->
+    <div align="center" id="winnerDeclarationWindow" class="userInteractiveWindow">
+        <div>
+            <a href="#close" title="Close" class="close">X</a>
+            <h2>Game Over!</h2>
+            <hr>
+            <p>
+                <h4>Congratulations On Winning This Game</h4>
+                <div id="winnerDeclaration"></div>
+                <h2>
+                    <div id="winner"></div>
+                </h2>
+                <a href="index.html"><button title="Restart Game">Restart</button></a>
+            </p>
+        </div>
+    </div>
+    <!-- //Weapons -->
+    <div class="weapons-data">
+        <span><img class="theWeapon" src="./images/images/bat.png" alt="Bat" />Bat:- 10
+            Points</span>
+        <span><img class="theWeapon" src="./images/images/claws.png" alt="Claws" />Claws:-
+            20 Points</span>
+        <span><img class="theWeapon" src="./images/images/axe.png" alt="Axe" />Axe:- 25
+            Points</span>
+        <span><img class="theWeapon" src="./images/images/ak47.png" alt="AK-47" />AK47:-50
+            Points</span>
+    </div>
+</body>
+<script>
+    $("#rulesButton, #gameRules").click(function(e) {
+        if ($(e.target).attr("id") != "closeButton") {
+            $("#gameRules").show();
+            event.stopPropagation();
+        }
+    });
+    $("body, #closeButton").click(function() {
+        $("#gameRules").hide();
+        event.stopPropagation();
+    });
+</script>
+<script src="jQuery.js"></script>
+<script src="fight.js"></script>
+
+</html>
