@@ -362,7 +362,6 @@
                     activePlayer.image,
                     activePlayer.playerCartegory
                 );
-                positionRequiredToStartTheFight(parseInt(clickedRow), parseInt(clickedColumn));
                 gridElement.playerMakingMoves = gridElement.playerMakingMoves == "hostPlayer" ? "visitor" : "hostPlayer";
                 bringFowardPossibleMoveDirections();
             }
@@ -464,92 +463,6 @@
         resetDownWardMovemetHighlights();
         resetLeftSideMovemetHighlights();
         resetRightSideMovemetHighlights();
-    }
-    const specialCombatButtonEffects = (player) => {
-        if (player == "hostPlayer") {
-            $("#hostPlayer-attack").css("opacity", "1");
-            $("#hostdefendbtn").css("opacity", "1");
-            $("#visitor-attack").css("opacity", "0");
-            $("#visitordefendbtn").css("opacity", "0");
-        } else {
-            $("#visitor-attack").css("opacity", "1");
-            $("#visitordefendbtn").css("opacity", "1");
-            $("#hostPlayer-attack").css("opacity", "0");
-            $("#hostdefendbtn").css("opacity", "0");
-        }
-    }
-    const positionRequiredToStartTheFight = (row, column) => {
-        if ((row > 0 && gridElement.arrangement[row - 1][column].player == true) || (row < 9 && gridElement.arrangement[row + 1][column].player == true)) {
-            window.location.href = "#combatWindow";
-            combat();
-        } else if ((column > 0 && gridElement.arrangement[row][column - 1].player == true) || (column < 9 && gridElement.arrangement[row][column + 1].player == true)) {
-            window.location.href = "#combatWindow";
-            combat();
-        }
-    }
-    const combat = () => {
-        let playerCartegory = gridElement.playerMakingMoves;
-        let hostEnergyLevel = 100;
-        let visitorEnergyLevel = 100;
-        let hostDefendingCurrently = false;
-        let visitorDefendingCurrently = false;
-        $("#hostPlayer-attack").click(() => {
-            let activePlayer = players.find((player) => player.playerCartegory == playerCartegory);
-            if (visitorDefendingCurrently === true) {
-                visitorEnergyLevel -= activePlayer.attack * 0.5;
-                $(".visitor-life").text(visitorEnergyLevel);
-                visitorDefendingCurrently = false;
-            } else {
-                visitorEnergyLevel -= activePlayer.attack;
-                $(".visitor-life").text(visitorEnergyLevel);
-            }
-            if (visitorEnergyLevel <= 0) {
-                $("#winnerDeclaration").append(
-                    '<img class="playercombat" src="images/images/hostPlayer.png" alt="hostPlayer">'
-                );
-                $("#winner").text("Host Player");
-                window.location.href = "#winnerDeclarationWindow";
-            }
-            playerCartegory = "visitor";
-            specialCombatButtonEffects(playerCartegory);
-            hostDefendingCurrently = false;
-            $("#hostDefending").text(hostDefendingCurrently);
-        });
-        $("#hostdefendbtn").click(() => {
-            hostDefendingCurrently = true;
-            $("#hostDefending").text(hostDefendingCurrently);
-            playerCartegory = "visitor";
-            specialCombatButtonEffects(playerCartegory);
-        });
-        $("#visitor-attack").click(() => {
-            let activePlayer = players.find((player) => player.playerCartegory == playerCartegory);
-            if (hostDefendingCurrently === true) {
-                hostEnergyLevel -= activePlayer.attack * 0.5;
-                $(".hostPlayerEnergyLevelIndicator").text(hostEnergyLevel);
-                hostDefendingCurrently = false;
-            } else {
-                hostEnergyLevel -= activePlayer.attack;
-                $(".hostPlayerEnergyLevelIndicator").text(hostEnergyLevel);
-            }
-            if (hostEnergyLevel <= 0) {
-                $("#winnerDeclaration").append(
-                    '<img class="playercombat" src="images/images/visitor.png" alt="visitor">'
-                );
-                $("#winner").text("Visiting Player");
-                window.location.href = "#winnerDeclarationWindow";
-            }
-            playerCartegory = "hostPlayer";
-            specialCombatButtonEffects(playerCartegory);
-            visitorDefendingCurrently = false;
-            $("#visitorDefending").text(visitorDefendingCurrently);
-        });
-        $("#visitordefendbtn").click(() => {
-            visitorDefendingCurrently = true;
-            $("#visitorDefending").text(visitorDefendingCurrently);
-            playerCartegory = "hostPlayer";
-            specialCombatButtonEffects(playerCartegory);
-        });
-        specialCombatButtonEffects(playerCartegory);
     }
     const randomGameElementsPositioning = () => parseInt(Math.random() * (10));
 })();
