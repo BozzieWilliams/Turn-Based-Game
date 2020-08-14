@@ -205,7 +205,7 @@
                     gridElement.arrangement[row][column].allowedMovePattern = true;
                     $("#grid_" + row + "_" + column).css(
                         "border",
-                        "4px solid #CB99C9"
+                        "5px solid #CB99C9"
                     );
                 }
             }
@@ -234,7 +234,7 @@
                     gridElement.arrangement[row][column].allowedMovePattern = true;
                     $("#grid_" + row + "_" + column).css(
                         "border",
-                        "2px solid #CB99C9"
+                        "5px solid #CB99C9"
                     );
                 }
             }
@@ -263,7 +263,7 @@
                     gridElement.arrangement[row][column].allowedMovePattern = true;
                     $("#grid_" + row + "_" + column).css(
                         "border",
-                        "2px solid #CB99C9"
+                        "5px solid #CB99C9"
                     );
                 }
             }
@@ -290,7 +290,7 @@
                     gridElement.arrangement[row][column].allowedMovePattern = true;
                     $("#grid_" + row + "_" + column).css(
                         "border",
-                        "2px solid #CB99C9"
+                        "5px solid #CB99C9"
                     );
                 }
             }
