@@ -204,8 +204,8 @@
                 } else {
                     gridElement.arrangement[row][column].allowedMovePattern = true;
                     $("#grid_" + row + "_" + column).css(
-                        "background",
-                        "inset 0 0 0 2000px rgba(243, 255, 67, 0.3)"
+                        "border",
+                        "2px solid #CB99C9"
                     );
                 }
             }
