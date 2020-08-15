@@ -25,11 +25,10 @@
             image: "images/axe.png"
         }
     };
-
     const players = [{
             playerCartegory: "hostPlayer",
             image: "images/hostPlayer.png",
-            attack: 10,
+            attackingPower: 10,
             position: {
                 row: null,
                 column: null,
@@ -37,8 +36,8 @@
         },
         {
             playerCartegory: "visitor",
-            attack: 10,
             image: "images/visitor.png",
+            attackingPower: 10,
             position: {
                 row: null,
                 column: null,
@@ -57,7 +56,7 @@
                 this.arrangement[rows] = [];
                 for (let columns = 0; columns < this.gridLayout; columns++) {
                     $("#container").append(
-                        '<div id="grid_' + rows + "_" + columns + '" class="grid"></div>'
+                        '<div id="grid_' + rows + "_" + columns + '" class="grid-cell"></div>'
                     );
                     this.arrangement[rows][columns] = {
                         gameComponent: null,
@@ -67,8 +66,8 @@
                     };
                 }
             }
-            $(".grid").width(550 / this.gridLayout);
-            $(".grid").height(550 / this.gridLayout);
+            $(".grid-cell").width(550 / this.gridLayout);
+            $(".grid-cell").height(550 / this.gridLayout);
             this.playerMakingMoves = "hostPlayer";
         }
         includeObstacle(row, column, gameComponent) {
@@ -101,13 +100,10 @@
             }
         }
         includePlayer(row, column, gameComponent, indexedProperty) {
-            if (row < 9 && this.arrangement[row + 1][column].player == true) {
-                this.includePlayer(randomGameElementsPositioning(), randomGameElementsPositioning(), gameComponent, indexedProperty);
-            } else if (row > 0 && this.arrangement[row - 1][column].player == true) {
-                this.includePlayer(randomGameElementsPositioning(), randomGameElementsPositioning(), gameComponent, indexedProperty);
-            } else if (column < 9 && this.arrangement[row][column + 1].player == true) {
-                this.includePlayer(randomGameElementsPositioning(), randomGameElementsPositioning(), gameComponent, indexedProperty);
-            } else if (column > 0 && this.arrangement[row][column - 1].player == true) {
+            if ((row < 9 && this.arrangement[row + 1][column].player == true) ||
+                (row > 0 && this.arrangement[row - 1][column].player == true) ||
+                (column > 0 && this.arrangement[row][column - 1].player == true) ||
+                (column < 9 && this.arrangement[row][column + 1].player == true)) {
                 this.includePlayer(randomGameElementsPositioning(), randomGameElementsPositioning(), gameComponent, indexedProperty);
             } else {
                 if (this.arrangement[row][column].gameComponent != true) {
@@ -120,7 +116,7 @@
                         column: column,
                     };
                     $("#grid_" + row + "_" + column + "").css("background-color", "");
-                    $("#grid_" + row + "_" + column).css("box-shadow", "");
+                    $("#grid_" + row + "_" + column).css("border", "");
                     $("#grid_" + row + "_" + column + "").css(
                         "background-image",
                         "url(" + gameComponent + ")"
@@ -137,26 +133,26 @@
                         let weaponImage;
                         for (let weapon in weapons) {
                             if (weapon == this.arrangement[row][column].weaponName) {
-                                player.attack = weapons[weapon].damageLevel;
+                                player.attackingPower = weapons[weapon].damageLevel;
                                 weaponImage = weapons[weapon].image;
                                 break;
                             }
                         }
                         if (player.playerCartegory == "hostPlayer") {
-                            $(".hostplayerdamage").text(player.attack);
+                            $(".hostplayerdamage").text(player.attackingPower);
                             $(".hostPlayerWeaponTracker").css(
                                 "background-image",
                                 "url(" + weaponImage + ")"
                             );
                         } else if (player.playerCartegory == "visitor") {
-                            $(".visitorplayerdamage").text(player.attack);
+                            $(".visitorplayerdamage").text(player.attackingPower);
                             $(".visitorWeaponTracker").css(
                                 "background-image",
                                 "url(" + weaponImage + ")"
                             );
                         }
                         $("#grid_" + row + "_" + column + "").css("background-color", "");
-                        $("#grid_" + row + "_" + column).css("box-shadow", "");
+                        $("#grid_" + row + "_" + column).css("border", "");
                         $("#grid_" + row + "_" + column + "").css(
                             "background-image",
                             "url(" + gameComponent + ")"
@@ -167,7 +163,6 @@
                 }
             }
         }
-
         statusUpdate() {
             let activePlayer = players.find((player) => player.playerCartegory == this.playerMakingMoves);
             let row = activePlayer.position.row;
@@ -205,7 +200,7 @@
                     gridElement.arrangement[row][column].allowedMovePattern = true;
                     $("#grid_" + row + "_" + column).css(
                         "border",
-                        "5px solid #CB99C9"
+                        "2px solid #ff0000"
                     );
                 }
             }
@@ -234,7 +229,7 @@
                     gridElement.arrangement[row][column].allowedMovePattern = true;
                     $("#grid_" + row + "_" + column).css(
                         "border",
-                        "5px solid #CB99C9"
+                        "2px solid #ff0000"
                     );
                 }
             }
@@ -263,13 +258,12 @@
                     gridElement.arrangement[row][column].allowedMovePattern = true;
                     $("#grid_" + row + "_" + column).css(
                         "border",
-                        "5px solid #CB99C9"
+                        "2px solid #ff0000"
                     );
                 }
             }
         }
     };
-
     const rightSideMovesWithHighlights = () => {
         let activePlayer = players.find((player) => player.playerCartegory == gridElement.playerMakingMoves);
         let row = activePlayer.position.row;
@@ -290,7 +284,7 @@
                     gridElement.arrangement[row][column].allowedMovePattern = true;
                     $("#grid_" + row + "_" + column).css(
                         "border",
-                        "5px solid #CB99C9"
+                        "2px solid #ff0000"
                     );
                 }
             }
@@ -330,38 +324,38 @@
         bringFowardPossibleMoveDirections();
         $("#container").click((e) => {
             e.preventDefault();
-            let elementId = e.target.id;
-            let clickedRow = elementId.split("_")[1];
-            let clickedColumn = elementId.split("_")[2];
-            if (gridElement.arrangement[clickedRow][clickedColumn].allowedMovePattern) {
+            let targetElement = e.target.id;
+            let destinationRow = targetElement.split("_")[1];
+            let destinationColumn = targetElement.split("_")[2];
+            if (gridElement.arrangement[destinationRow][destinationColumn].allowedMovePattern) {
                 gridElement.statusUpdate(); // reseting Cell Positions
                 let activePlayer = players.find((player) => player.playerCartegory == gridElement.playerMakingMoves);
                 if ( //weaponChange
-                    gridElement.arrangement[clickedRow][clickedColumn].weapon &&
+                    gridElement.arrangement[destinationRow][destinationColumn].weapon &&
                     !activePlayer.weaponName
                 ) {
-                    activePlayer.weaponName = gridElement.arrangement[clickedRow][clickedColumn].weaponName;
+                    activePlayer.weaponName = gridElement.arrangement[destinationRow][destinationColumn].weaponName;
                     activePlayer.weaponPosition = {
-                        row: clickedRow,
-                        column: clickedColumn,
+                        row: destinationRow,
+                        column: destinationColumn,
                     };
                 } else if (
-                    gridElement.arrangement[clickedRow][clickedColumn].weapon &&
+                    gridElement.arrangement[destinationRow][destinationColumn].weapon &&
                     activePlayer.weaponName
                 ) {
                     let oldWeaponName = activePlayer.weaponName; //weaponChange
                     let oldWeaponPosition = activePlayer.weaponPosition;
-                    activePlayer.weaponName = gridElement.arrangement[clickedRow][clickedColumn].weaponName;
+                    activePlayer.weaponName = gridElement.arrangement[destinationRow][destinationColumn].weaponName;
                     gridElement.includeWeapon(
                         oldWeaponPosition.row, oldWeaponPosition.column, weapons[oldWeaponName].image, oldWeaponName);
                 }; //end of weapon change
                 gridElement.includePlayer(
-                    parseInt(clickedRow),
-                    parseInt(clickedColumn),
+                    parseInt(destinationRow),
+                    parseInt(destinationColumn),
                     activePlayer.image,
                     activePlayer.playerCartegory
                 );
-                positionRequiredToStartTheFight(parseInt(clickedRow), parseInt(clickedColumn));
+                positionRequiredToStartTheFight(parseInt(destinationRow), parseInt(destinationColumn));
                 gridElement.playerMakingMoves = gridElement.playerMakingMoves == "hostPlayer" ? "visitor" : "hostPlayer";
                 bringFowardPossibleMoveDirections();
             }
@@ -387,7 +381,7 @@
                 $("#grid_" + row + "_" + column).css("background", "");
             } else {
                 gridElement.arrangement[row][column].allowedMovePattern = false;
-                $("#grid_" + row + "_" + column).css("box-shadow", "");
+                $("#grid_" + row + "_" + column).css("border", "");
             }
         }
     };
@@ -411,7 +405,7 @@
                 $("#grid_" + row + "_" + column).css("background", "");
             } else {
                 gridElement.arrangement[row][column].allowedMovePattern = false;
-                $("#grid_" + row + "_" + column).css("box-shadow", "");
+                $("#grid_" + row + "_" + column).css("border", "");
             }
         }
     };
@@ -433,7 +427,7 @@
                 $("#grid_" + row + "_" + column).css("background", "");
             } else {
                 gridElement.arrangement[row][column].allowedMovePattern = false;
-                $("#grid_" + row + "_" + column).css("box-shadow", "");
+                $("#grid_" + row + "_" + column).css("border", "");
             }
         }
     };
@@ -454,7 +448,7 @@
                 $("#grid_" + row + "_" + column).css("background", "");
             } else {
                 gridElement.arrangement[row][column].allowedMovePattern = false;
-                $("#grid_" + row + "_" + column).css("box-shadow", "");
+                $("#grid_" + row + "_" + column).css("border", "");
             }
         }
     };
@@ -478,10 +472,7 @@
         }
     }
     const positionRequiredToStartTheFight = (row, column) => {
-        if ((row > 0 && gridElement.arrangement[row - 1][column].player == true) || (row < 9 && gridElement.arrangement[row + 1][column].player == true)) {
-            window.location.href = "#combatWindow";
-            combat();
-        } else if ((column > 0 && gridElement.arrangement[row][column - 1].player == true) || (column < 9 && gridElement.arrangement[row][column + 1].player == true)) {
+        if ((row > 0 && gridElement.arrangement[row - 1][column].player == true) || (row < 9 && gridElement.arrangement[row + 1][column].player == true) || (column > 0 && gridElement.arrangement[row][column - 1].player == true) || (column < 9 && gridElement.arrangement[row][column + 1].player == true)) {
             window.location.href = "#combatWindow";
             combat();
         }
@@ -495,11 +486,11 @@
         $("#hostPlayer-attack").click(() => {
             let activePlayer = players.find((player) => player.playerCartegory == playerCartegory);
             if (visitorDefendingCurrently === true) {
-                visitorEnergyLevel -= activePlayer.attack * 0.5;
+                visitorEnergyLevel -= activePlayer.attackingPower * 0.5;
                 $(".visitor-life").text(visitorEnergyLevel);
                 visitorDefendingCurrently = false;
             } else {
-                visitorEnergyLevel -= activePlayer.attack;
+                visitorEnergyLevel -= activePlayer.attackingPower;
                 $(".visitor-life").text(visitorEnergyLevel);
             }
             if (visitorEnergyLevel <= 0) {
@@ -523,11 +514,11 @@
         $("#visitor-attack").click(() => {
             let activePlayer = players.find((player) => player.playerCartegory == playerCartegory);
             if (hostDefendingCurrently === true) {
-                hostEnergyLevel -= activePlayer.attack * 0.5;
+                hostEnergyLevel -= activePlayer.attackingPower * 0.5;
                 $(".hostPlayerEnergyLevelIndicator").text(hostEnergyLevel);
                 hostDefendingCurrently = false;
             } else {
-                hostEnergyLevel -= activePlayer.attack;
+                hostEnergyLevel -= activePlayer.attackingPower;
                 $(".hostPlayerEnergyLevelIndicator").text(hostEnergyLevel);
             }
             if (hostEnergyLevel <= 0) {

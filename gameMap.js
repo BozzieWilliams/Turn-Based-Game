@@ -1,7 +1,6 @@
 (() => {
     const weapons = {
         claws: {
-            damageLevel: 20,
             position: {
                 row: null,
                 column: null,
@@ -9,7 +8,6 @@
             image: "images/claws.png"
         },
         ak47: {
-            damageLevel: 50,
             position: {
                 row: null,
                 column: null,
@@ -17,7 +15,6 @@
             image: "images/ak47.png"
         },
         axe: {
-            damageLevel: 25,
             position: {
                 row: null,
                 column: null,
@@ -29,21 +26,19 @@
     const players = [{
             playerCartegory: "hostPlayer",
             image: "images/hostPlayer.png",
-            attack: 10,
             position: {
                 row: null,
                 column: null,
-            },
+            }
         },
         {
             playerCartegory: "visitor",
-            attack: 10,
             image: "images/visitor.png",
             position: {
                 row: null,
                 column: null,
-            },
-        },
+            }
+        }
     ];
 
     class BoardLayout {
@@ -57,7 +52,7 @@
                 this.arrangement[rows] = [];
                 for (let columns = 0; columns < this.gridLayout; columns++) {
                     $("#container").append(
-                        '<div id="grid_' + rows + "_" + columns + '" class="grid"></div>'
+                        '<div id="grid_' + rows + "_" + columns + '" class="grid-cell"></div>'
                     );
                     this.arrangement[rows][columns] = {
                         gameComponent: null,
@@ -67,18 +62,14 @@
                     };
                 }
             }
-            $(".grid").width(550 / this.gridLayout);
-            $(".grid").height(550 / this.gridLayout);
-            this.playerMakingMoves = "hostPlayer";
+            $(".grid-cell").width(550 / this.gridLayout);
+            $(".grid-cell").height(550 / this.gridLayout);
         }
         includeObstacle(row, column, gameComponent) {
             if (this.arrangement[row][column].gameComponent != true) {
                 this.arrangement[row][column].obstacle = true;
                 this.arrangement[row][column].gameComponent = true;
-                $("#grid_" + row + "_" + column + "").css(
-                    "background-color",
-                    "grey"
-                );
+                $("#grid_" + row + "_" + column + "").css("background-color", "grey");
             } else {
                 this.includeObstacle(randomGameElementsPositioning(), randomGameElementsPositioning(), gameComponent);
             }
@@ -92,22 +83,16 @@
                     row: row,
                     column: column,
                 };
-                $("#grid_" + row + "_" + column + "").css(
-                    "background-image",
-                    "url(" + gameComponent + ")"
-                );
+                $("#grid_" + row + "_" + column + "").css("background-image", "url(" + gameComponent + ")");
             } else {
                 this.includeWeapon(randomGameElementsPositioning(), randomGameElementsPositioning(), gameComponent, indexedProperty);
             }
         }
         includePlayer(row, column, gameComponent, indexedProperty) {
-            if (row < 9 && this.arrangement[row + 1][column].player == true) {
-                this.includePlayer(randomGameElementsPositioning(), randomGameElementsPositioning(), gameComponent, indexedProperty);
-            } else if (row > 0 && this.arrangement[row - 1][column].player == true) {
-                this.includePlayer(randomGameElementsPositioning(), randomGameElementsPositioning(), gameComponent, indexedProperty);
-            } else if (column < 9 && this.arrangement[row][column + 1].player == true) {
-                this.includePlayer(randomGameElementsPositioning(), randomGameElementsPositioning(), gameComponent, indexedProperty);
-            } else if (column > 0 && this.arrangement[row][column - 1].player == true) {
+            if ((row < 9 && this.arrangement[row + 1][column].player == true) ||
+                (row > 0 && this.arrangement[row - 1][column].player == true) ||
+                (column > 0 && this.arrangement[row][column - 1].player == true) ||
+                (column < 9 && this.arrangement[row][column + 1].player == true)) {
                 this.includePlayer(randomGameElementsPositioning(), randomGameElementsPositioning(), gameComponent, indexedProperty);
             } else {
                 if (this.arrangement[row][column].gameComponent != true) {
@@ -125,47 +110,11 @@
                         "url(" + gameComponent + ")"
                     );
                 } else {
-                    if (this.arrangement[row][column].weapon) {
-                        this.arrangement[row][column].player = true;
-                        this.arrangement[row][column].playerCartegory = indexedProperty;
-                        let player = players.find((player) => player.playerCartegory == indexedProperty);
-                        player.position = {
-                            row: row,
-                            column: column,
-                        };
-                        let weaponImage;
-                        for (let weapon in weapons) {
-                            if (weapon == this.arrangement[row][column].weaponName) {
-                                player.attack = weapons[weapon].damageLevel;
-                                weaponImage = weapons[weapon].image;
-                                break;
-                            }
-                        }
-                        if (player.playerCartegory == "hostPlayer") {
-                            $(".hostplayerdamage").text(player.attack);
-                            $(".hostPlayerWeaponTracker").css(
-                                "background-image",
-                                "url(" + weaponImage + ")"
-                            );
-                        } else if (player.playerCartegory == "visitor") {
-                            $(".visitorplayerdamage").text(player.attack);
-                            $(".visitorWeaponTracker").css(
-                                "background-image",
-                                "url(" + weaponImage + ")"
-                            );
-                        }
-                        $("#grid_" + row + "_" + column + "").css("background-color", "");
-                        $("#grid_" + row + "_" + column + "").css(
-                            "background-image",
-                            "url(" + gameComponent + ")"
-                        );
-                    } else {
-                        this.includePlayer(randomGameElementsPositioning(), randomGameElementsPositioning(), gameComponent, indexedProperty);
-                    }
+                    this.includePlayer(randomGameElementsPositioning(), randomGameElementsPositioning(), gameComponent, indexedProperty);
                 }
             }
         }
-    };
+    }
     let gridElement;
     $(document).ready(() => {
         gridElement = new BoardLayout(10);
