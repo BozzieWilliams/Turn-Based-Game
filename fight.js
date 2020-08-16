@@ -100,8 +100,8 @@
             }
         }
         includePlayer(row, column, gameComponent, indexedProperty) {
-            if ((row < 9 && this.arrangement[row + 1][column].player == true) ||
-                (row > 0 && this.arrangement[row - 1][column].player == true) ||
+            if ((row > 0 && this.arrangement[row - 1][column].player == true) ||
+                (row < 9 && this.arrangement[row + 1][column].player == true) ||
                 (column > 0 && this.arrangement[row][column - 1].player == true) ||
                 (column < 9 && this.arrangement[row][column + 1].player == true)) {
                 this.includePlayer(randomGameElementsPositioning(), randomGameElementsPositioning(), gameComponent, indexedProperty);
@@ -115,8 +115,6 @@
                         row: row,
                         column: column,
                     };
-                    $("#grid_" + row + "_" + column + "").css("background-color", "");
-                    $("#grid_" + row + "_" + column).css("border", "");
                     $("#grid_" + row + "_" + column + "").css(
                         "background-image",
                         "url(" + gameComponent + ")"
@@ -151,8 +149,6 @@
                                 "url(" + weaponImage + ")"
                             );
                         }
-                        $("#grid_" + row + "_" + column + "").css("background-color", "");
-                        $("#grid_" + row + "_" + column).css("border", "");
                         $("#grid_" + row + "_" + column + "").css(
                             "background-image",
                             "url(" + gameComponent + ")"
@@ -480,18 +476,18 @@
     const combat = () => {
         let playerCartegory = gridElement.playerMakingMoves;
         let hostEnergyLevel = 100;
-        let visitorEnergyLevel = 100;
         let hostDefendingCurrently = false;
+        let visitorEnergyLevel = 100;
         let visitorDefendingCurrently = false;
         $("#hostPlayer-attack").click(() => {
             let activePlayer = players.find((player) => player.playerCartegory == playerCartegory);
             if (visitorDefendingCurrently === true) {
                 visitorEnergyLevel -= activePlayer.attackingPower * 0.5;
-                $(".visitor-life").text(visitorEnergyLevel);
+                $(".visitorEnergyLevelIndicator").text(visitorEnergyLevel);
                 visitorDefendingCurrently = false;
             } else {
                 visitorEnergyLevel -= activePlayer.attackingPower;
-                $(".visitor-life").text(visitorEnergyLevel);
+                $(".visitorEnergyLevelIndicator").text(visitorEnergyLevel);
             }
             if (visitorEnergyLevel <= 0) {
                 $("#winnerDeclaration").append(

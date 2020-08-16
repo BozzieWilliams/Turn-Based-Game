@@ -116,8 +116,6 @@
                         row: row,
                         column: column,
                     };
-                    $("#grid_" + row + "_" + column + "").css("background-color", "");
-                    $("#grid_" + row + "_" + column).css("border", "");
                     $("#grid_" + row + "_" + column + "").css(
                         "background-image",
                         "url(" + gameComponent + ")"
@@ -152,8 +150,6 @@
                                 "url(" + weaponImage + ")"
                             );
                         }
-                        $("#grid_" + row + "_" + column + "").css("background-color", "");
-                        $("#grid_" + row + "_" + column).css("border", "");
                         $("#grid_" + row + "_" + column + "").css(
                             "background-image",
                             "url(" + gameComponent + ")"

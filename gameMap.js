@@ -45,7 +45,6 @@
         constructor(gridLines) {
             this.gridLayout = gridLines;
             this.arrangement = [];
-            this.playerMakingMoves = null;
         }
         connectBoard() {
             for (let rows = 0; rows < this.gridLayout; rows++) {
@@ -89,8 +88,8 @@
             }
         }
         includePlayer(row, column, gameComponent, indexedProperty) {
-            if ((row < 9 && this.arrangement[row + 1][column].player == true) ||
-                (row > 0 && this.arrangement[row - 1][column].player == true) ||
+            if ((row > 0 && this.arrangement[row - 1][column].player == true) ||
+                (row < 9 && this.arrangement[row + 1][column].player == true) ||
                 (column > 0 && this.arrangement[row][column - 1].player == true) ||
                 (column < 9 && this.arrangement[row][column + 1].player == true)) {
                 this.includePlayer(randomGameElementsPositioning(), randomGameElementsPositioning(), gameComponent, indexedProperty);
@@ -104,7 +103,6 @@
                         row: row,
                         column: column,
                     };
-                    $("#grid_" + row + "_" + column + "").css("background-color", "");
                     $("#grid_" + row + "_" + column + "").css(
                         "background-image",
                         "url(" + gameComponent + ")"
