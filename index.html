@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Turn Based Board Game</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -56,7 +56,7 @@
             </div>
             <img class="playercombat" src="./images/images/visitor.png" alt="visitor"><br>
             <p class="visitorUpdates"></p>
-            <div class="#"><strong>Energy Level </strong> <span class="visitor-life">100</span></div>
+            <div class="#"><strong>Energy Level </strong> <span class="visitorEnergyLevelIndicator">100</span></div>
             <div class="visitorWeaponTracker" style="background: url('./images/bat.png'); margin: 30px auto;height: 50px; object-fit: contain;width: 50px;">
             </div>
             <div><strong>Damage Level </strong><span class="visitorplayerdamage">10</span></div>
@@ -86,7 +86,8 @@
                     <h2>Visiting Player</h2>
                 </div>
                 <img class="playercombat" src="./images/images/visitor.png" alt="visitor"><br>
-                <div class="#"><strong>Energy Level </strong> <span class="visitor-life">100</span> </div>
+                <div class="#"><strong>Energy Level </strong> <span class="visitorEnergyLevelIndicator">100</span>
+                </div>
                 <div style="margin-left:35%; width: 50px; height: 50px; background: url('./images/bat.png')" class="visitorWeaponTracker"> </div>
                 <div><strong>Damage Level </strong> <span class="visitorplayerdamage">10</span></div>
                 <div class="defence"><strong>Defending</strong> <span id="visitorDefending">false</span></div> <br>
@@ -123,20 +124,18 @@
     </div>
 </body>
 <script>
-    $("#rulesButton, #gameRules").click(function(e) {
+    $("#rulesButton, #gameRules").click((e) => {
         if ($(e.target).attr("id") != "closeButton") {
             $("#gameRules").show();
             event.stopPropagation();
         }
     });
-    $("body, #closeButton").click(function() {
+    $("body, #closeButton").click(() => {
         $("#gameRules").hide();
         event.stopPropagation();
     });
 </script>
 <script src="jQuery.js"></script>
-<!-- <script src="gameMap.js"></script> -->
-<!-- <script src="move.js"></script> -->
 <script src="fight.js"></script>
 
 </html>
