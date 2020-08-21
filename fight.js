@@ -45,7 +45,7 @@
         },
     ];
 
-    class BoardLayout {
+   class BoardLayout {
         constructor(gridLines) {
             this.gridLayout = gridLines;
             this.arrangement = [];
