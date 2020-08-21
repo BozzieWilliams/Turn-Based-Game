@@ -45,7 +45,7 @@
         },
     ];
 
-    class BoardLayout {
+   class BoardLayout {
         constructor(gridLines) {
             this.gridLayout = gridLines;
             this.arrangement = [];
@@ -100,54 +100,63 @@
             }
         }
         includePlayer(row, column, gameComponent, indexedProperty) {
-            if (this.arrangement[row][column].gameComponent != true) {
-                this.arrangement[row][column].player = true;
-                this.arrangement[row][column].playerCartegory = indexedProperty;
-                this.arrangement[row][column].gameComponent = true;
-                let player = players.find((player) => player.playerCartegory == indexedProperty);
-                player.position = {
-                    row: row,
-                    column: column,
-                };
-                $("#grid_" + row + "_" + column + "").css(
-                    "background-image",
-                    "url(" + gameComponent + ")"
-                );
-            } else if (this.arrangement[row][column].weapon) {
-                this.arrangement[row][column].player = true;
-                this.arrangement[row][column].playerCartegory = indexedProperty;
-                let player = players.find((player) => player.playerCartegory == indexedProperty);
-                player.position = {
-                    row: row,
-                    column: column,
-                };
-                let weaponImage;
-                for (let weapon in weapons) {
-                    if (weapon == this.arrangement[row][column].weaponName) {
-                        player.attackingPower = weapons[weapon].damageLevel;
-                        weaponImage = weapons[weapon].image;
-                        break;
+            if ((row > 0 && this.arrangement[row - 1][column].player == true) ||
+                (row < 9 && this.arrangement[row + 1][column].player == true) ||
+                (column > 0 && this.arrangement[row][column - 1].player == true) ||
+                (column < 9 && this.arrangement[row][column + 1].player == true)) {
+                this.includePlayer(randomGameElementsPositioning(), randomGameElementsPositioning(), gameComponent, indexedProperty);
+            } else {
+                if (this.arrangement[row][column].gameComponent != true) {
+                    this.arrangement[row][column].player = true;
+                    this.arrangement[row][column].playerCartegory = indexedProperty;
+                    this.arrangement[row][column].gameComponent = true;
+                    let player = players.find((player) => player.playerCartegory == indexedProperty);
+                    player.position = {
+                        row: row,
+                        column: column,
+                    };
+                    $("#grid_" + row + "_" + column + "").css(
+                        "background-image",
+                        "url(" + gameComponent + ")"
+                    );
+                } else {
+                    if (this.arrangement[row][column].weapon) {
+                        this.arrangement[row][column].player = true;
+                        this.arrangement[row][column].playerCartegory = indexedProperty;
+                        let player = players.find((player) => player.playerCartegory == indexedProperty);
+                        player.position = {
+                            row: row,
+                            column: column,
+                        };
+                        let weaponImage;
+                        for (let weapon in weapons) {
+                            if (weapon == this.arrangement[row][column].weaponName) {
+                                player.attackingPower = weapons[weapon].damageLevel;
+                                weaponImage = weapons[weapon].image;
+                                break;
+                            }
+                        }
+                        if (player.playerCartegory == "hostPlayer") {
+                            $(".hostplayerdamage").text(player.attackingPower);
+                            $(".hostPlayerWeaponTracker").css(
+                                "background-image",
+                                "url(" + weaponImage + ")"
+                            );
+                        } else if (player.playerCartegory == "visitor") {
+                            $(".visitorplayerdamage").text(player.attackingPower);
+                            $(".visitorWeaponTracker").css(
+                                "background-image",
+                                "url(" + weaponImage + ")"
+                            );
+                        }
+                        $("#grid_" + row + "_" + column + "").css(
+                            "background-image",
+                            "url(" + gameComponent + ")"
+                        );
+                    } else {
+                        this.includePlayer(randomGameElementsPositioning(), randomGameElementsPositioning(), gameComponent, indexedProperty);
                     }
                 }
-                if (player.playerCartegory == "hostPlayer") {
-                    $(".hostplayerdamage").text(player.attackingPower);
-                    $(".hostPlayerWeaponTracker").css(
-                        "background-image",
-                        "url(" + weaponImage + ")"
-                    );
-                } else if (player.playerCartegory == "visitor") {
-                    $(".visitorplayerdamage").text(player.attackingPower);
-                    $(".visitorWeaponTracker").css(
-                        "background-image",
-                        "url(" + weaponImage + ")"
-                    );
-                }
-                $("#grid_" + row + "_" + column + "").css(
-                    "background-image",
-                    "url(" + gameComponent + ")"
-                );
-            } else {
-                this.includePlayer(randomGameElementsPositioning(), randomGameElementsPositioning(), gameComponent, indexedProperty);
             }
         }
         statusUpdate() {
