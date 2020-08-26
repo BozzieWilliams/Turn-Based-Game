@@ -382,7 +382,30 @@
             }
         }
     };
-   
+    const resetDownWardMovemetHighlights = () => {
+        let activePlayer = players.find((player) => player.playerCartegory == gridElement.playerMakingMoves);
+        let row = activePlayer.position.row;
+        let column = activePlayer.position.column;
+        for (let i = 1; i <= 3; i++) {
+            row = row + 1;
+            if (row >= 10) {
+                break;
+            }
+            if (
+                gridElement.arrangement[row][column].obstacle == true ||
+                gridElement.arrangement[row][column].player == true
+            ) {
+                break;
+            }
+            if (gridElement.arrangement[row][column].weapon != true) {
+                gridElement.arrangement[row][column].allowedMovePattern = false;
+                $("#grid_" + row + "_" + column).css("background", "");
+            } else {
+                gridElement.arrangement[row][column].allowedMovePattern = false;
+                $("#grid_" + row + "_" + column).css("border", "");
+            }
+        }
+    };
     
     
     
