@@ -406,9 +406,6 @@
             }
         }
     };
-    
-    
-    
     const resetLeftSideMovemetHighlights = () => {
         let activePlayer = players.find((player) => player.playerCartegory == gridElement.playerMakingMoves);
         let row = activePlayer.position.row;
