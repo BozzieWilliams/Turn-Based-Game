@@ -261,12 +261,6 @@
             }
         }
     };
-    
-    
-    
-    
-    
-
     const rightSideMovesWithHighlights = () => {
         let activePlayer = players.find((player) => player.playerCartegory == gridElement.playerMakingMoves);
         let row = activePlayer.position.row;
