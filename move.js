@@ -232,35 +232,12 @@
             }
         }
     };
-    const leftSideMovesWithHighlights = () => {
-        let activePlayer = players.find((player) => player.playerCartegory == gridElement.playerMakingMoves);
-        let row = activePlayer.position.row;
-        let column = activePlayer.position.column;
-        if (gridElement.arrangement[row][column].player == true) {
-            for (let i = 1; i <= 3; i++) {
-                column = column - 1;
-                if (column < 0) {
-                    break;
-                }
-                if (
-                    gridElement.arrangement[row][column].obstacle == true ||
-                    gridElement.arrangement[row][column].player == true
-                ) {
-                    break;
-                }
-                if (gridElement.arrangement[row][column].weapon != true) {
-                    gridElement.arrangement[row][column].allowedMovePattern = true;
-                    $("#grid_" + row + "_" + column).css("background", "#ec90ee");
-                } else {
-                    gridElement.arrangement[row][column].allowedMovePattern = true;
-                    $("#grid_" + row + "_" + column).css(
-                        "border",
-                        "2px solid #ff0000"
-                    );
-                }
-            }
-        }
-    };
+   
+    
+    
+    
+    
+    
 
     const rightSideMovesWithHighlights = () => {
         let activePlayer = players.find((player) => player.playerCartegory == gridElement.playerMakingMoves);
