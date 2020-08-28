@@ -46,25 +46,25 @@
             this.gridLayout = gridLines;
             this.arrangement = [];
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        includeObstacle(row, column, gameComponent) {
+       connectBoard() {
+            for (let rows = 0; rows < this.gridLayout; rows++) {
+                this.arrangement[rows] = [];
+                for (let columns = 0; columns < this.gridLayout; columns++) {
+                    $("#container").append(
+                        '<div id="grid_' + rows + "_" + columns + '" class="grid-cell"></div>'
+                    );
+                    this.arrangement[rows][columns] = {
+                        gameComponent: null,
+                        obstacle: null,
+                        player: null,
+                        weapon: null,
+                    };
+                }
+            }
+            $(".grid-cell").width(550 / this.gridLayout);
+            $(".grid-cell").height(550 / this.gridLayout);
+        }
+         includeObstacle(row, column, gameComponent) {
             if (this.arrangement[row][column].gameComponent != true) {
                 this.arrangement[row][column].obstacle = true;
                 this.arrangement[row][column].gameComponent = true;
