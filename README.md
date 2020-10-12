@@ -1,7 +1,5 @@
-# Project6
-Web Developer(Front-end Path) @ OpenClassRooms International
 
-In this project, you will create an online game written JavaScript in which 2 players play each turn to compete. 
+An online game written JavaScript in which 2 players play each turn to compete. 
 
 ![apercu15](https://user-images.githubusercontent.com/47401781/86554974-c0725600-bf57-11ea-85bf-4b9c76efb3a2.png)
 
