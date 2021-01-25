@@ -81,7 +81,13 @@ h4 {
     color: blue !important;
 }
 
-.hostPlayerEnergyLevelIndicator,.visitorEnergyLevelIndicator {
+.hostPlayerEnergyLevelIndicator {
+    font-weight: bolder;
+    color: blueviolet;
+    font-size: larger;
+}
+
+.visitorEnergyLevelIndicator {
     font-weight: bolder;
     color: blueviolet;
     font-size: larger;
@@ -92,10 +98,16 @@ h4 {
     object-fit: contain;
 }
 
-.hostplayerdamage,.visitorplayerdamage {
+.hostplayerdamage {
     font-weight: bolder;
     color: blue;
 }
+
+.visitorplayerdamage {
+    font-weight: bolder;
+    color: blue;
+}
+
 #container {
     font-size: 0;
     margin: auto;
